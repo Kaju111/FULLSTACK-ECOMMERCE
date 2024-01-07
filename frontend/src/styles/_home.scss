@@ -47,6 +47,9 @@
     position: relative;
     background-color: white;
 
+    &:hover>div {
+        opacity: 1;
+    }
 
     img {
         @include square(calc(18.75rem - 3rem));
