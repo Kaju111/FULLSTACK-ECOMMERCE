@@ -2,7 +2,7 @@ import { useState } from "react"
 import { FaSearch, FaShoppingBag, FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa"
 import { Link } from "react-router-dom"
 
-const user = { _id: "", role: "" }
+const user = { _id: "ahkjnla", role: "admin" }
 
 const Header = () => {
 
@@ -30,7 +30,7 @@ const Header = () => {
                                 {user.role === "admin" && (
                                     <Link to="/admin/dashboard">Admin</Link>
                                 )}
-                                <Link onClick={() => setIsOpen(false)} to="/order">ok done kaju saikia</Link>
+                                <Link onClick={() => setIsOpen(false)} to="/orders">ok done kaju saikia</Link>
                                 <button onClick={logoutHandler}><FaSignOutAlt /></button>
                             </div>
                         </dialog>
