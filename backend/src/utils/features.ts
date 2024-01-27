@@ -2,6 +2,7 @@ import mongoose from "mongoose"
 import { InvalidateCacheProps, OrderItemType } from "../types/type.js"
 import { myCache } from "../app.js"
 import { Product } from "../models/product.js"
+import { Order } from "../models/order.js"
 
 
 export const connectDB = (uri: string) => {
@@ -12,24 +13,34 @@ export const connectDB = (uri: string) => {
     )
 }
 
-export const invalidateCache = async ({ product, order, admin }: InvalidateCacheProps) => {
+export const invalidateCache = async ({
+    product,
+    order,
+    admin,
+    userId,
+    orderId,
+    productId,
+}: InvalidateCacheProps) => {
     if (product) {
         const productKeys: string[] = [
             "latest-products",
             "categories",
-            "all-products"
+            "all-products",
         ]
 
-        const products = await Product.find({}).select("_id")
+        if (typeof productId === "string") productKeys.push(`product-${productId}`)
 
-        products.forEach(i => {
-            productKeys.push(`product-${i._id}`)
-        });
+        if (typeof productId === "object") productId.forEach((i) => { productKeys.push(`product-${i}`) });
 
         myCache.del(productKeys)
 
     }
     if (order) {
+
+        const orderskey: string[] = ["all-orders", `my-orders-${userId}`, `order-${orderId}`]
+
+
+        myCache.del(orderskey)
     }
     if (admin) {
     }

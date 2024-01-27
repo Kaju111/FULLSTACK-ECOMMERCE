@@ -8,5 +8,5 @@ app.post("/new", newOrder);
 app.get("/my", myOrders);
 //route - /api/v1/order/all
 app.get("/all", adminOnly, allOrders);
-app.route("/:id").get(getSingleOrder).put(adminOnly, processOrder).delete(DeleteOrder);
+app.route("/:id").get(getSingleOrder).put(adminOnly, processOrder).delete(adminOnly, DeleteOrder);
 export default app;

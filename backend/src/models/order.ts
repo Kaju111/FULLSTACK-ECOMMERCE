@@ -22,7 +22,7 @@ const schema = new mongoose.Schema(
             },
             pinCode: {
                 type: Number,
-                required: true,
+                // required: true,
             },
         },
 

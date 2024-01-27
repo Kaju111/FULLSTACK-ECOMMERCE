@@ -46,6 +46,9 @@ export type InvalidateCacheProps = {
     product?: boolean
     order?: boolean
     admin?: boolean
+    userId?: string
+    orderId?: string
+    productId?: string | string[]
 }
 
 export type OrderItemType = {
@@ -67,7 +70,7 @@ export type ShippingInfoType = {
 
 export interface NewOrderRequestBody {
     shippingInfo: ShippingInfoType;
-    user: String;
+    user: string;
     subtotal: number
     tax: number
     shippingCharges: number
