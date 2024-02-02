@@ -10,6 +10,7 @@ const Shipping = lazy(() => import("./pages/shipping"))
 const Login = lazy(() => import("./pages/login"))
 const Orders = lazy(() => import("./pages/orders"))
 const OrderDetails = lazy(() => import("./pages/orderDetails"))
+import { Toaster } from "react-hot-toast"
 
 // Admin Routes Importing
 
@@ -91,8 +92,7 @@ const App = () => {
 
         </Routes>
       </Suspense>
-
-
+      <Toaster position="bottom-center" />
     </Router>
   )
 }
