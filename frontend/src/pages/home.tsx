@@ -1,11 +1,17 @@
 import { Link } from "react-router-dom"
 import ProductCard from "../components/product-card"
+import { useLatestProductsQuery } from "../redux/api/productApi"
+import toast from "react-hot-toast"
+import Loader from "../components/admin/Loader"
+import { Skeleton } from "../components/leader"
 
 const Home = () => {
 
-  const addToCartHandler = () => {
+  const { data, isLoading, isError } = useLatestProductsQuery("")
 
-  }
+
+  const addToCartHandler = () => { }
+  if (isError) toast.error("Cannot Fetch the products")
 
   return (
     <div className="home">
@@ -20,13 +26,21 @@ const Home = () => {
 
       </h1>
       <main>
-        <ProductCard
-          productId="kakjn"
-          name="Macbook"
-          price={4545}
-          stock={435}
-          handler={addToCartHandler}
-          photo="https://m.media-amazon.com/images/W/MEDIAX_792452-T1/images/I/71TPda7cwUL._SX679_.jpg" />
+        <Skeleton />
+        {isLoading ? (
+          <Loader />
+        ) : (
+          data?.products.map((i) => (
+            <ProductCard
+              key={i._id}
+              productId={i._id}
+              name={i.name}
+              price={i.price}
+              stock={i.stock}
+              handler={addToCartHandler}
+              photo={i.photo} />
+          ))
+        )}
       </main>
     </div>
   )
