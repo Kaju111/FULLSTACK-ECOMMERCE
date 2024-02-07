@@ -33,10 +33,10 @@ export type SearchRequestQuery = {
     page?: string
 }
 
-export interface BaseQuary {
+export interface BaseQuery {
     name?: {
         $regex: string,
-        $option: string
+        $options: string
     }
     price?: { $lte: number };
     category?: string

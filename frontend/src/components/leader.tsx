@@ -15,12 +15,12 @@ interface SkeletonProps {
 }
 
 export const Skeleton = ({ width = 'unset', length = 3 }: SkeletonProps) => {
-  Array.from({ length })
+  const skeletons = Array.from({ length }, (_, idx) => (
+    <div key={idx} className="skeleton-shape"></div>
+  ))
   return (
-    <div className="skeleton-loader">
-      <div className="skeleton-shape" style={{ width }}></div>
-      <div className="skeleton-shape"></div>
-      <div className="skeleton-shape"></div>
+    <div className="skeleton-loader" style={{ width }}>
+      {skeletons}
     </div>
   )
 }
