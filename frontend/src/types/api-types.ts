@@ -51,3 +51,14 @@ export type ProductsResponse = {
     success: boolean;
     product: Product;
 }
+
+export type UpdateProductsRequest = {
+    userId: string;
+    productId: string
+    formData: FormData
+}
+
+export type DeleteProductsRequest = {
+    userId: string;
+    productId: string
+}
