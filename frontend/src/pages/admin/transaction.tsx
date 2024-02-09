@@ -1,8 +1,14 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Column } from "react-table";
+import { Column, actions } from "react-table";
 import AdminSidebar from "../../components/admin/AdminSidebar";
 import TableHOC from "../../components/admin/TableHOC";
+import { userReducerInitialState } from "../../types/reducer-types";
+import { useSelector } from "react-redux";
+import { useAllOrdersQuery } from "../../redux/api/orderApi";
+import { CustomError } from "../../types/api-types";
+import toast from "react-hot-toast";
+import { Skeleton } from "../../components/leader";
 
 interface DataType {
   user: string;
@@ -69,6 +75,44 @@ const columns: Column<DataType>[] = [
 ];
 
 const Transaction = () => {
+
+  const { user } = useSelector(
+    (state: { userReducer: userReducerInitialState }) => state.userReducer
+  )
+
+  const { isLoading, data, error, isError } = useAllOrdersQuery(user?._id!)
+
+
+  if (isError) {
+    const err = error as CustomError
+    toast.error(err.data.message)
+  }
+
+  useEffect(() => {
+    if (data)
+      setRows(
+        data.orders.map((i) => ({
+          user: i.user.name,
+          amount: i.total,
+          discount: i.discount,
+          quantity: i.orderItems.length,
+          status: (
+            <span
+              className={
+                i.status === "Processing"
+                  ? "red"
+                  : i.status === "Shipped"
+                    ? "green"
+                    : "purple"
+              }
+            >
+              {i.status}
+            </span>
+          ),
+          action: <Link to={`/admin/transaction/${i._id}`}>Manage</Link>,
+        }))
+      );
+  }, [data]);
   const [rows, setRows] = useState<DataType[]>(arr);
 
   const Table = TableHOC<DataType>(
@@ -81,7 +125,7 @@ const Transaction = () => {
   return (
     <div className="admin-container">
       <AdminSidebar />
-      <main>{Table}</main>
+      <main>{isLoading ? <Skeleton length={20} /> : Table}</main>
     </div>
   );
 };

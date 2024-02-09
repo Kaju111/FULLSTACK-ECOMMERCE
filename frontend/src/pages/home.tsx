@@ -1,11 +1,11 @@
+import toast from "react-hot-toast"
+import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
+import { Skeleton } from "../components/leader"
 import ProductCard from "../components/product-card"
 import { useLatestProductsQuery } from "../redux/api/productApi"
-import toast from "react-hot-toast"
-import { Skeleton } from "../components/leader"
-import { CartItem } from "../types/types"
-import { useDispatch } from "react-redux"
 import { addToCart } from "../redux/reducer/cartReducer"
+import { CartItem } from "../types/types"
 
 const Home = () => {
 
@@ -20,9 +20,6 @@ const Home = () => {
     dispatch(addToCart(cartItem))
     toast.success("Added to cart")
   }
-
-
-
 
   if (isError) toast.error("Cannot Fetch the products")
 
