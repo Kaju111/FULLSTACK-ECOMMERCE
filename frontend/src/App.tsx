@@ -1,7 +1,16 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import { lazy, Suspense, useEffect } from "react"
-import Leader from "./components/leader"
+import { onAuthStateChanged } from "firebase/auth"
+import { Suspense, lazy, useEffect } from "react"
+import { Toaster } from "react-hot-toast"
+import { useDispatch, useSelector } from "react-redux"
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom"
+import Loader from "./components/admin/Loader"
 import Header from "./components/header"
+import Leader from "./components/leader"
+import ProtectedRoute from "./components/protected-route "
+import { auth } from "./firebase"
+import { getUser } from "./redux/api/userAPI"
+import { userExits, userNotExits } from "./redux/reducer/userReducer"
+import { userReducerInitialState } from "./types/reducer-types"
 
 const Home = lazy(() => import("./pages/home"))
 const Search = lazy(() => import("./pages/search"))
@@ -10,18 +19,10 @@ const Shipping = lazy(() => import("./pages/shipping"))
 const Login = lazy(() => import("./pages/login"))
 const Orders = lazy(() => import("./pages/orders"))
 const OrderDetails = lazy(() => import("./pages/orderDetails"))
-import { Toaster } from "react-hot-toast"
-import { onAuthStateChanged } from "firebase/auth"
-import { auth } from "./firebase"
-import { useDispatch, useSelector } from "react-redux"
-import { userExits, userNotExits } from "./redux/reducer/userReducer"
-import { getUser } from "./redux/api/userAPI"
-import { userReducerInitialState } from "./types/reducer-types"
-import Loader from "./components/admin/Loader"
-import ProtectedRoute from "./components/protected-route "
+const NotFound = lazy(() => import("./pages/not-found"))
+const Checkout = lazy(() => import("./pages/checkout"))
 
 // Admin Routes Importing
-
 const Dashboard = lazy(() => import("./pages/admin/dashboard"));
 const Products = lazy(() => import("./pages/admin/products"));
 const Customers = lazy(() => import("./pages/admin/customers"));
@@ -92,6 +93,7 @@ const App = () => {
             <Route path="/shipping" element={<Shipping />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/order/:id" element={<OrderDetails />} />
+            <Route path="/pay" element={<Checkout />} />
           </Route>
 
 
@@ -125,8 +127,9 @@ const App = () => {
             <Route path="/admin/product/:id" element={<ProductManagement />} />
 
             <Route path="/admin/transaction/:id" element={<TransactionManagement />} />
-          </Route>;
+          </Route>
 
+          <Route path="*" element={<NotFound />} />
 
         </Routes>
       </Suspense>

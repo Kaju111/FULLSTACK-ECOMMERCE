@@ -1,14 +1,14 @@
 import { ReactElement, useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Column, actions } from "react-table";
+import { Column } from "react-table";
 import AdminSidebar from "../../components/admin/AdminSidebar";
 import TableHOC from "../../components/admin/TableHOC";
-import { userReducerInitialState } from "../../types/reducer-types";
-import { useSelector } from "react-redux";
+import { Skeleton } from "../../components/leader";
 import { useAllOrdersQuery } from "../../redux/api/orderApi";
 import { CustomError } from "../../types/api-types";
-import toast from "react-hot-toast";
-import { Skeleton } from "../../components/leader";
+import { userReducerInitialState } from "../../types/reducer-types";
 
 interface DataType {
   user: string;
@@ -18,34 +18,6 @@ interface DataType {
   status: ReactElement;
   action: ReactElement;
 }
-
-const arr: Array<DataType> = [
-  {
-    user: "Charas",
-    amount: 4500,
-    discount: 400,
-    status: <span className="red">Processing</span>,
-    quantity: 3,
-    action: <Link to="/admin/transaction/sajknaskd">Manage</Link>,
-  },
-
-  {
-    user: "Xavirors",
-    amount: 6999,
-    discount: 400,
-    status: <span className="green">Shipped</span>,
-    quantity: 6,
-    action: <Link to="/admin/transaction/sajknaskd">Manage</Link>,
-  },
-  {
-    user: "Xavirors",
-    amount: 6999,
-    discount: 400,
-    status: <span className="purple">Delivered</span>,
-    quantity: 6,
-    action: <Link to="/admin/transaction/sajknaskd">Manage</Link>,
-  },
-];
 
 const columns: Column<DataType>[] = [
   {
@@ -82,6 +54,7 @@ const Transaction = () => {
 
   const { isLoading, data, error, isError } = useAllOrdersQuery(user?._id!)
 
+  const [rows, setRows] = useState<DataType[]>([]);
 
   if (isError) {
     const err = error as CustomError
@@ -113,7 +86,6 @@ const Transaction = () => {
         }))
       );
   }, [data]);
-  const [rows, setRows] = useState<DataType[]>(arr);
 
   const Table = TableHOC<DataType>(
     columns,
