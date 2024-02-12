@@ -1,5 +1,9 @@
+import { useSelector } from "react-redux";
 import AdminSidebar from "../../../components/admin/AdminSidebar";
 import { BarChart } from "../../../components/admin/Charts";
+import { RootState } from "../../../redux/store";
+import { useBarQuery } from "../../../redux/api/dashboardApi";
+import { Navigate } from "react-router-dom";
 
 const months = [
   "January",
@@ -17,6 +21,14 @@ const months = [
 ];
 
 const Barcharts = () => {
+
+  const { user } = useSelector((state: RootState) => state.userReducer);
+
+  const { isLoading, data, isError } = useBarQuery(user?._id!);
+
+  if (isError) return <Navigate to={"/admin/dashboard"} />;
+
+
   return (
     <div className="admin-container">
       <AdminSidebar />

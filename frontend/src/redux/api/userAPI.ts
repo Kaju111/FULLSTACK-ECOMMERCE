@@ -27,7 +27,7 @@ export const userAPI = createApi({
 
 
         allUsers: builder.query<AllUsersResponse, string>({
-            query: id => `all?id${id}`,
+            query: id => `all?id=${id}`,
             providesTags: ["users"]
         })
 
