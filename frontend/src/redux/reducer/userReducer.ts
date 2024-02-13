@@ -25,4 +25,3 @@ export const userReducer = createSlice({
 })
 
 export const { userExits, userNotExits } = userReducer.actions
-

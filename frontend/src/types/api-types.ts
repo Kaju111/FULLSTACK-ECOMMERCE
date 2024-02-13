@@ -118,4 +118,3 @@ export type DeleteUserRequest = {
     userId: string;
     adminUserId: string
 }
-

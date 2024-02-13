@@ -24,4 +24,3 @@ export const Skeleton = ({ width = 'unset', length = 3 }: SkeletonProps) => {
     </div>
   )
 }
-
