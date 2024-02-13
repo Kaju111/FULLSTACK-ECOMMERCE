@@ -1,14 +1,19 @@
-import { Elements, PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
-import { FormEvent, useState } from 'react';
-import toast from 'react-hot-toast';
-import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { useNewOrderMutation } from '../redux/api/orderApi';
-import { resetCart } from '../redux/reducer/cartReducer';
-import { RootState } from '../redux/store';
-import { NewOrderRequest } from '../types/api-types';
-import { responseToast } from '../utils/features';
+import {
+    Elements,
+    PaymentElement,
+    useElements,
+    useStripe,
+} from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import { FormEvent, useState } from "react";
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useNewOrderMutation } from "../redux/api/orderApi";
+import { resetCart } from "../redux/reducer/cartReducer";
+import { RootState } from "../redux/store";
+import { NewOrderRequest } from "../types/api-types";
+import { responseToast } from "../utils/features";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
 
@@ -100,4 +105,4 @@ const Checkout = () => {
     );
 };
 
-export default Checkout
+export default Checkout;

@@ -7,9 +7,8 @@ import AdminSidebar from "../../components/admin/AdminSidebar";
 import TableHOC from "../../components/admin/TableHOC";
 import { Skeleton } from "../../components/leader";
 import { useAllOrdersQuery } from "../../redux/api/orderApi";
-import { CustomError } from "../../types/api-types";
-import { userReducerInitialState } from "../../types/reducer-types";
 import { RootState } from "../../redux/store";
+import { CustomError } from "../../types/api-types";
 
 interface DataType {
   user: string;
@@ -48,16 +47,17 @@ const columns: Column<DataType>[] = [
 ];
 
 const Transaction = () => {
+  const { user } = useSelector((state: RootState) => state.userReducer);
 
-  const { user } = useSelector((state: RootState) => state.userReducer)
-
-  const { isLoading, data, error, isError } = useAllOrdersQuery(user?._id!)
+  const { isLoading, data, isError, error } = useAllOrdersQuery(user?._id!);
 
   const [rows, setRows] = useState<DataType[]>([]);
 
+  console.log(data)
+
   if (isError) {
-    const err = error as CustomError
-    toast.error(err.data.message)
+    const err = error as CustomError;
+    toast.error(err.data.message);
   }
 
   useEffect(() => {
